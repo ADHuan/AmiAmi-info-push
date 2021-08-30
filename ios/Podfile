@@ -16,9 +16,11 @@ target 'AmiAmi' do
 
   pod 'react-native-spinkit', :path => '../node_modules/react-native-spinkit'
 
-  pod 'JPush', :path => '../node_modules/jpush-react-native'
 
-  pod 'JCore', :path => '../node_modules/jcore-react-native'
+
+  pod 'react-native-background-timer', :path => '../node_modules/react-native-background-timer'
+
+  pod 'react-native-background-actions', :path => '../node_modules/react-native-background-actions'
 
   target 'AmiAmiTests' do
     inherit! :complete

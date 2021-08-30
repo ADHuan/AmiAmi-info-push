@@ -9,40 +9,112 @@ import {
   TextInput,
   TouchableOpacity,
   Linking,
+  Switch,
 } from 'react-native';
 import Spinner from 'react-native-spinkit';
 import AmiItem from './AmiItem';
+import {
+  IsBackSrv,
+  StartBackSrv,
+  StartBackTimer,
+  StopBackSrv,
+  StopBackTimer,
+} from './BackSrv';
 import styles from './ItemListStyle';
+import {PushSrv} from './PushSrv';
 import storage from './storage';
 
-let DATA = [
-  {
-    url: 'https://www.amiami.com/cn/detail/?gcode=FIGURE-050571',
-    id: '001',
-    canbuy: false,
-    gcode: 'FIGURE-050571',
-    gname: 'METAL BUILD 命运高达',
-  },
+let DATA: any[] = [
+  //   {
+  //     url: 'https://www.amiami.com/cn/detail/?gcode=FIGURE-050571',
+  //     id: '001',
+  //     canbuy: false,
+  //     gcode: 'FIGURE-050571',
+  //     gname: 'METAL BUILD 命运高达',
+  //   },
 ];
 
+//开启订阅服务
+//StartBackTimer();
 
 const ItemList: React.FC = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [disSpinner, setDisSpinner] = useState(true);
+  const [isEnabled, setIsEnabled] = useState(false);
   let delitem: any;
+
+  useEffect(() => {
+    console.log(IsBackSrv());
+
+    if (IsBackSrv()) {
+      setIsEnabled(true);
+    }
+    refreshStatus();
+  }, [delitem]);
 
   const refresh = () => {
     setDisSpinner(true);
-    storage.getAllDataForKey('AmiItem').then(items => {
-      console.log(items);
-      DATA = items;
-      setDisSpinner(false);
-    });
+    setTimeout(() => {
+      storage.getAllDataForKey('AmiItem').then(items => {
+        console.log('refresh');
+        console.log(items);
+        DATA = items;
+        setDisSpinner(false);
+      });
+    }, 20);
   };
 
-  useEffect(() => {
-    refresh();
-  }, [delitem]);
+  const refreshStatus = () => {
+    setDisSpinner(true);
+    setTimeout(() => {
+      storage.getAllDataForKey('AmiItem').then(async items => {
+        console.log('refreshStatus');
+        //console.log(items);
+
+        const doitems = async () => {
+          await Promise.all(
+            items.map(async (ele: any) => {
+              return new Promise<void>((resolve, reject) => {
+                // console.log('数据库中数据');
+
+                // console.log(ele);
+                const tempitem = new AmiItem(ele.url, ele.id);
+
+                tempitem.onGet = async () => {
+                  //   console.log('刷新后数据');
+                  //   console.log(tempitem);
+                  //   console.log('等于测试');
+                  //   console.log(ele.canbuy);
+                  //   console.log(tempitem.canbuy);
+                  //   console.log(ele.canbuy != tempitem.canbuy);
+                  if (ele.canbuy != tempitem.canbuy) {
+                    await storage.remove({key: 'AmiItem', id: tempitem.id});
+                    console.log('有变化');
+
+                    await storage.save({
+                      key: 'AmiItem',
+                      id: tempitem.id,
+                      data: tempitem.getinfo(),
+                    });
+                    resolve();
+                  } else {
+                    tempitem.onGet = () => {
+                      console.log('无变化');
+                    };
+                    resolve(console.log('无变化'));
+                  }
+                };
+              });
+            }),
+          );
+        };
+
+        await doitems();
+
+        refresh();
+      });
+    }, 20);
+  };
 
   const Item = ({item}: any) => {
     let canbuy;
@@ -58,6 +130,44 @@ const ItemList: React.FC = () => {
       itemstyle = styles.item;
       canbuystyle = styles.highlight;
     }
+
+    const confirmDel = () => {
+      Alert.alert(
+        '确认删除该商品的订阅吗？',
+        '',
+        [
+          {
+            text: '确认',
+            onPress: async () => {
+              console.log('删除测试rr');
+
+              console.log(item);
+
+              delitem = item;
+              await storage.remove({
+                key: 'AmiItem',
+                id: item.id,
+              });
+              refresh();
+            },
+            style: 'destructive',
+          },
+          {
+            text: '取消',
+            onPress: () => {},
+            style: 'cancel',
+          },
+        ],
+        {
+          cancelable: true,
+          onDismiss: () =>
+            Alert.alert(
+              'This alert was dismissed by tapping outside of the alert dialog.',
+            ),
+        },
+      );
+    };
+
     return (
       <View style={itemstyle}>
         <Text>
@@ -88,15 +198,39 @@ const ItemList: React.FC = () => {
           <TouchableOpacity
             style={{...styles.itemButton, backgroundColor: 'darkred'}}
             onPress={() => {
-              storage.remove({
-                key: 'AmiItem',
-                id: item.id,
-              });
-              refresh()
+              confirmDel();
             }}>
             <Text style={styles.textStyle}>删除订阅</Text>
           </TouchableOpacity>
         </View>
+      </View>
+    );
+  };
+
+  const HeaderComponent: React.FC = () => {
+    const toggleSwitch = () => {
+      setIsEnabled(previousState => !previousState);
+      console.log(!isEnabled);
+
+      if (!isEnabled) {
+        StartBackSrv();
+      } else {
+        StopBackSrv();
+      }
+    };
+
+    return (
+      <View style={styles.container}>
+        <Text style={{marginTop: 10, fontSize: 14, fontWeight: 'bold'}}>
+          是否开启后台补货监测服务？
+        </Text>
+        <Switch
+          trackColor={{false: '#767577', true: '#81b0ff'}}
+          thumbColor={isEnabled ? '#2196F3' : '#f4f3f4'}
+          ios_backgroundColor="#3e3e3e"
+          onValueChange={toggleSwitch}
+          value={isEnabled}
+        />
       </View>
     );
   };
@@ -194,7 +328,7 @@ const ItemList: React.FC = () => {
         <TouchableHighlight
           style={{...styles.openButton, backgroundColor: 'mediumseagreen'}}
           onPress={() => {
-            refresh()
+            refreshStatus();
           }}>
           <Text style={styles.textStyle}>刷新状态</Text>
         </TouchableHighlight>
@@ -207,6 +341,7 @@ const ItemList: React.FC = () => {
       data={DATA}
       renderItem={renderItem}
       keyExtractor={item => item.id}
+      ListHeaderComponent={HeaderComponent}
       ListFooterComponent={FooterComponent}
     />
   );

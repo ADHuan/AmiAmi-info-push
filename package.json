@@ -1,5 +1,5 @@
 {
-  "name": "amiami",
+  "name": "amiamiinfopush",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -11,10 +11,13 @@
   },
   "dependencies": {
     "@react-native-community/async-storage": "^1.12.1",
-    "jcore-react-native": "^1.9.4",
-    "jpush-react-native": "^2.8.7",
+    "@types/react-native-background-timer": "^2.0.0",
+    "@types/react-native-push-notification": "^7.3.2",
     "react": "17.0.2",
     "react-native": "0.65.1",
+    "react-native-background-actions": "^2.6.2",
+    "react-native-background-timer": "^2.4.1",
+    "react-native-push-notification": "^8.0.1",
     "react-native-spinkit": "^1.5.1",
     "react-native-storage": "^1.0.1"
   },

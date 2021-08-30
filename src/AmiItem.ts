@@ -15,12 +15,16 @@ class AmiItem {
   gname!: string;
   onGet: Function = () => {};
 
-  constructor(url: string) {
+  constructor(url: string, id?: string,onGet?: Function) {
     this.url = url;
     const tstr = url.split('?')[1].split('&')[0];
-    this.apiurl = 'https://api.amiami.com/api/v1.0/item?' + tstr + '&lang=cn';
-
-    this.id = uuid();
+    this.apiurl = 'https://26967c2f-5684-4199-a2aa-77ae16470537.mock.pstmn.io/api/v1.0/item?' + tstr + '&lang=cn';
+    //this.apiurl = 'https://api.amiami.com/api/v1.0/item?' + tstr + '&lang=cn';
+    if (typeof id == 'undefined') {
+      this.id = uuid();
+    } else {
+      this.id = id;
+    }
     this.iniinfo(this.apiurl);
   }
 
@@ -40,7 +44,13 @@ class AmiItem {
       this.canbuy = true;
     }
     console.log(this);
-    this.onGet();
+    setTimeout(() => {
+      this.onGet();
+    }, 50);
+  }
+
+  refresh() {
+    this.iniinfo(this.apiurl);
   }
 
   getinfo() {

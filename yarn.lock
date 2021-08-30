@@ -1302,6 +1302,16 @@
   resolved "https://registry.nlark.com/@types/prop-types/download/@types/prop-types-15.7.4.tgz?cache=0&sync_timestamp=1629708789374&other_urls=https%3A%2F%2Fregistry.nlark.com%2F%40types%2Fprop-types%2Fdownload%2F%40types%2Fprop-types-15.7.4.tgz#fcf7205c25dff795ee79af1e30da2c9790808f11"
   integrity sha1-/PcgXCXf95Xuea8eMNosl5CAjxE=
 
+"@types/react-native-background-timer@^2.0.0":
+  version "2.0.0"
+  resolved "https://registry.nlark.com/@types/react-native-background-timer/download/@types/react-native-background-timer-2.0.0.tgz#c44c57f8fbca9d9d5521fdd72a8f55232b79381e"
+  integrity sha1-xExX+PvKnZ1VIf3XKo9VIyt5OB4=
+
+"@types/react-native-push-notification@^7.3.2":
+  version "7.3.2"
+  resolved "https://registry.nlark.com/@types/react-native-push-notification/download/@types/react-native-push-notification-7.3.2.tgz#fa4ca52925ac82f8c2520b1524e02310493369c1"
+  integrity sha1-+kylKSWsgvjCUgsVJOAjEEkzacE=
+
 "@types/react-native@^0.64.5":
   version "0.64.13"
   resolved "https://registry.nlark.com/@types/react-native/download/@types/react-native-0.64.13.tgz?cache=0&sync_timestamp=1629708895138&other_urls=https%3A%2F%2Fregistry.nlark.com%2F%40types%2Freact-native%2Fdownload%2F%40types%2Freact-native-0.64.13.tgz#9e57b85631380b75979a09f5a97e1884299e8d5a"
@@ -2831,6 +2841,11 @@ event-target-shim@^5.0.0, event-target-shim@^5.0.1:
   resolved "https://registry.npm.taobao.org/event-target-shim/download/event-target-shim-5.0.1.tgz#5d4d3ebdf9583d63a5333ce2deb7480ab2b05789"
   integrity sha1-XU0+vflYPWOlMzzi3rdICrKwV4k=
 
+eventemitter3@^4.0.7:
+  version "4.0.7"
+  resolved "https://registry.npm.taobao.org/eventemitter3/download/eventemitter3-4.0.7.tgz#2de9b68f6528d5644ef5c59526a1b4a07306169f"
+  integrity sha1-Lem2j2Uo1WRO9cWVJqG0oHMGFp8=
+
 exec-sh@^0.3.2:
   version "0.3.6"
   resolved "https://registry.npm.taobao.org/exec-sh/download/exec-sh-0.3.6.tgz#ff264f9e325519a60cb5e273692943483cca63bc"
@@ -3757,11 +3772,6 @@ istanbul-reports@^3.0.2:
     html-escaper "^2.0.0"
     istanbul-lib-report "^3.0.0"
 
-jcore-react-native@^1.9.4:
-  version "1.9.4"
-  resolved "https://registry.nlark.com/jcore-react-native/download/jcore-react-native-1.9.4.tgz#d745b1ad73d1787ccd5d2a137e09b943d17b7a82"
-  integrity sha1-10WxrXPReHzNXSoTfgm5Q9F7eoI=
-
 jest-changed-files@^26.6.2:
   version "26.6.2"
   resolved "https://registry.nlark.com/jest-changed-files/download/jest-changed-files-26.6.2.tgz?cache=0&sync_timestamp=1630058613614&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fjest-changed-files%2Fdownload%2Fjest-changed-files-26.6.2.tgz#f6198479e1cc66f22f9ae1e22acaa0b429c042d0"
@@ -4150,11 +4160,6 @@ joi@^17.2.1:
     "@sideway/address" "^4.1.0"
     "@sideway/formula" "^3.0.0"
     "@sideway/pinpoint" "^2.0.0"
-
-jpush-react-native@^2.8.7:
-  version "2.8.7"
-  resolved "https://registry.nlark.com/jpush-react-native/download/jpush-react-native-2.8.7.tgz#d43473c1302fedbffb79292db3b9a5e060461986"
-  integrity sha1-1DRzwTAv7b/7eSkts7ml4GBGGYY=
 
 "js-tokens@^3.0.0 || ^4.0.0", js-tokens@^4.0.0:
   version "4.0.0"
@@ -5455,6 +5460,18 @@ react-is@^16.8.1:
   resolved "https://registry.nlark.com/react-is/download/react-is-16.13.1.tgz#789729a4dc36de2999dc156dd6c1d9c18cea56a4"
   integrity sha1-eJcppNw23imZ3BVt1sHZwYzqVqQ=
 
+react-native-background-actions@^2.6.2:
+  version "2.6.2"
+  resolved "https://registry.nlark.com/react-native-background-actions/download/react-native-background-actions-2.6.2.tgz#dfab250cbeab23f0885dd8d643a2e1e9add49c74"
+  integrity sha1-36slDL6rI/CIXdjWQ6Lh6a3UnHQ=
+  dependencies:
+    eventemitter3 "^4.0.7"
+
+react-native-background-timer@^2.4.1:
+  version "2.4.1"
+  resolved "https://registry.npm.taobao.org/react-native-background-timer/download/react-native-background-timer-2.4.1.tgz#a3bc1cafa8c1e3aeefd0611de120298b67978a0f"
+  integrity sha1-o7wcr6jB467v0GEd4SApi2eXig8=
+
 react-native-codegen@^0.0.7:
   version "0.0.7"
   resolved "https://registry.npm.taobao.org/react-native-codegen/download/react-native-codegen-0.0.7.tgz#86651c5c5fec67a8077ef7f4e36f7ed459043e14"
@@ -5463,6 +5480,11 @@ react-native-codegen@^0.0.7:
     flow-parser "^0.121.0"
     jscodeshift "^0.11.0"
     nullthrows "^1.1.1"
+
+react-native-push-notification@^8.0.1:
+  version "8.0.1"
+  resolved "https://registry.nlark.com/react-native-push-notification/download/react-native-push-notification-8.0.1.tgz#76aeca0736363ad821c4497cdb6994bf14a5d21c"
+  integrity sha1-dq7KBzY2OtghxEl822mUvxSl0hw=
 
 react-native-spinkit@^1.5.1:
   version "1.5.1"

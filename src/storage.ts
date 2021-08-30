@@ -25,7 +25,7 @@ const storage = new Storage({
 });
 
 
-const DATA = 
+const oridata = 
     {
       url: 'https://www.amiami.com/cn/detail/?gcode=FIGURE-050571',
       id: '001',
@@ -35,10 +35,10 @@ const DATA =
     }
   ;
 
-storage.save({
-    key:'AmiItem',
-    id:'1001',
-    data:DATA,
-})
+// storage.save({
+//     key:'AmiItem',
+//     id:'001',
+//     data:oridata,
+// })
 
 export default storage;
