@@ -54,7 +54,7 @@ export const BackSrv = async (taskDataArguments: any) => {
       };
       await doitems();
     });
-    await sleep(10000);
+    await sleep(900000);
   }
 };
 
