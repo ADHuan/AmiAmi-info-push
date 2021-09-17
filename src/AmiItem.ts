@@ -40,10 +40,10 @@ class AmiItem {
 
     this.gcode = ansjson.item.gcode;
     this.gname = ansjson.item.gname;
-    if (ansjson.item.cart_type != '4') {
+    if (ansjson.item.cart_type == '8' || ansjson.item.cart_type == '9') {
       this.canbuy = true;
     }
-    console.log(this);
+    console.log(this);  
     setTimeout(() => {
       this.onGet();
     }, 50);
