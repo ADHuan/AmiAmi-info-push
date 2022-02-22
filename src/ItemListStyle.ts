@@ -13,6 +13,12 @@ const styles = StyleSheet.create({
     marginVertical: 8,
     marginHorizontal: 16,
   },
+  itemFailed: {
+    backgroundColor: 'orange',
+    padding: 20,
+    marginVertical: 8,
+    marginHorizontal: 16,
+  },
   itemButton: {
     borderRadius: 10,
     padding: 10,
@@ -89,6 +95,10 @@ const styles = StyleSheet.create({
   },
   highlightRed: {
     color: 'red',
+    fontWeight: '700',
+  },
+  highlightRoyalBlue: {
+    color: 'royalblue',
     fontWeight: '700',
   },
   container: {

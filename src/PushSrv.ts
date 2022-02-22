@@ -12,15 +12,20 @@ PushNotification.createChannel(
   created => console.log(`createChannel returned '${created}'`), // (optional) callback returns whether the channel was created, false means it already existed.
 );
 export const PushSrv = (item: any) => {
-  if (item.canbuy) {
+  if (item.canbuy=='true') {
     PushNotification.localNotification({
       channelId: 'amiamipush1',
       message: item.gname + '补货啦！',
     });
-  } else {
+  } else if(item.canbuy=='false'){
     PushNotification.localNotification({
       channelId: 'amiamipush1',
       message: item.gname + '又没货啦！',
+    });
+  }else {
+    PushNotification.localNotification({
+      channelId: 'amiamipush1',
+      message: item.gname + '链接失效！',
     });
   }
 };

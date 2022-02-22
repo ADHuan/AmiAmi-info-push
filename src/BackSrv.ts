@@ -28,12 +28,12 @@ export const BackSrv = async (taskDataArguments: any) => {
                 console.log(tempitem);
                 console.log('等于测试');
                 console.log(ele.canbuy);
-                console.log(tempitem.canbuy);
-                console.log(ele.canbuy != tempitem.canbuy);
-                if (ele.canbuy != tempitem.canbuy) {
+                console.log(tempitem.state);
+                console.log(ele.canbuy != tempitem.state);
+                if (ele.canbuy != tempitem.state) {
                   await storage.remove({key: 'AmiItem', id: tempitem.id});
                   console.log('有变化');
-                  PushSrv(ele);
+                  PushSrv(tempitem);
 
                   await storage.save({
                     key: 'AmiItem',
@@ -52,9 +52,10 @@ export const BackSrv = async (taskDataArguments: any) => {
           }),
         );
       };
+      
       await doitems();
     });
-    await sleep(900000);
+    await sleep(60000);
   }
 };
 
@@ -89,51 +90,3 @@ export const IsBackSrv = () =>{
     }
 }
 
-export const StartBackTimer = () => {
-  BackgroundTimer.runBackgroundTimer(() => {
-    storage.getAllDataForKey('AmiItem').then(async items => {
-      console.log('后台刷新中');
-      const doitems = async () => {
-        await Promise.all(
-          items.map(async (ele: any) => {
-            return new Promise<void>((resolve, reject) => {
-              const tempitem = new AmiItem(ele.url, ele.id);
-              if (ele.canbuy != tempitem.canbuy) {
-                tempitem.onGet = async () => {
-                  console.log('ele:');
-                  console.log(ele);
-                  await storage.remove({key: 'AmiItem', id: tempitem.id});
-                  console.log('有变化');
-                  PushSrv(ele);
-
-                  await storage.save({
-                    key: 'AmiItem',
-                    id: tempitem.id,
-                    data: tempitem.getinfo(),
-                  });
-                  resolve();
-                };
-              } else {
-                tempitem.onGet = () => {
-                  console.log('ele:');
-                  console.log(ele);
-                  PushSrv(ele);
-                  console.log('无变化');
-                  resolve();
-                };
-              }
-            });
-          }),
-        );
-      };
-      await doitems();
-    });
-    //code that will be called every {*} seconds
-  }, 10000);
-  //7200000 + Math.floor(Math.random() * (0 - 600000 + 1)) + 600000
-  //rest of code will be performing for iOS on background too
-};
-
-export const StopBackTimer = () => {
-  BackgroundTimer.stopBackgroundTimer();
-};

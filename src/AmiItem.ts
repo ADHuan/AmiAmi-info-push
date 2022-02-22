@@ -10,15 +10,15 @@ class AmiItem {
   url: string;
   apiurl: string;
   id: string;
-  canbuy: boolean = false;
+  state: string = 'false';
   gcode!: string;
   gname!: string;
   onGet: Function = () => {};
 
-  constructor(url: string, id?: string,onGet?: Function) {
+  constructor(url: string, id?: string, onGet?: Function) {
     this.url = url;
     const tstr = url.split('?')[1].split('&')[0];
-    //this.apiurl = 'https://26967c2f-5684-4199-a2aa-77ae16470537.mock.pstmn.io/api/v1.0/item?' + tstr + '&lang=cn';
+    //this.apiurl = 'https://c86185f2-33f4-4296-a7a0-fee06475dc3b.mock.pstmn.io/api/v1.0/item?' + tstr + '&lang=cn';
     this.apiurl = 'https://api.amiami.com/api/v1.0/item?' + tstr + '&lang=cn';
     if (typeof id == 'undefined') {
       this.id = uuid();
@@ -36,17 +36,27 @@ class AmiItem {
     });
 
     const ansjson = await req.json();
+
     console.log(ansjson);
 
-    this.gcode = ansjson.item.gcode;
-    this.gname = ansjson.item.gname;
-    if (ansjson.item.cart_type == '8' || ansjson.item.cart_type == '9') {
-      this.canbuy = true;
+    if (ansjson.RSuccess) {
+      this.gcode = ansjson.item.gcode;
+      this.gname = ansjson.item.gname;
+      if (ansjson.item.cart_type == '8' || ansjson.item.cart_type == '9') {
+        this.state = 'true';
+      }
+      console.log(this);
+      setTimeout(() => {
+        this.onGet();
+      }, 50);
+    } else {
+      this.gcode = 'failed';
+      this.gname = '无法获取';
+      this.state = 'failed';
+      setTimeout(() => {
+        this.onGet();
+      }, 50);
     }
-    console.log(this);  
-    setTimeout(() => {
-      this.onGet();
-    }, 50);
   }
 
   refresh() {
@@ -57,7 +67,7 @@ class AmiItem {
     return {
       url: this.url,
       id: this.id,
-      canbuy: this.canbuy,
+      canbuy: this.state,
       gcode: this.gcode,
       gname: this.gname,
     };

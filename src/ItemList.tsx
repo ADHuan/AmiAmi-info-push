@@ -16,9 +16,7 @@ import AmiItem from './AmiItem';
 import {
   IsBackSrv,
   StartBackSrv,
-  StartBackTimer,
   StopBackSrv,
-  StopBackTimer,
 } from './BackSrv';
 import styles from './ItemListStyle';
 import {PushSrv} from './PushSrv';
@@ -87,7 +85,7 @@ const ItemList: React.FC = () => {
                   //   console.log(ele.canbuy);
                   //   console.log(tempitem.canbuy);
                   //   console.log(ele.canbuy != tempitem.canbuy);
-                  if (ele.canbuy != tempitem.canbuy) {
+                  if (ele.canbuy != tempitem.state) {
                     await storage.remove({key: 'AmiItem', id: tempitem.id});
                     console.log('有变化');
 
@@ -121,14 +119,18 @@ const ItemList: React.FC = () => {
     let canbuystyle;
     let itemstyle;
 
-    if (item.canbuy) {
+    if (item.canbuy=='true') {
       canbuy = '可以购买！';
       itemstyle = styles.itemHighlight;
       canbuystyle = styles.highlightRed;
-    } else {
+    } else if(item.canbuy=='false'){
       canbuy = '无法购买';
       itemstyle = styles.item;
       canbuystyle = styles.highlight;
+    }else{
+      canbuy = '链接失效';
+      itemstyle = styles.itemFailed;
+      canbuystyle = styles.highlightRoyalBlue;
     }
 
     const confirmDel = () => {
@@ -139,7 +141,7 @@ const ItemList: React.FC = () => {
           {
             text: '确认',
             onPress: async () => {
-              console.log('删除测试rr');
+              console.log('删除测试');
 
               console.log(item);
 
